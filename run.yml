@@ -58,8 +58,8 @@
       dest: ./redfish.py
   - name: Copy agent.x86_64.iso to /var/www/html
     command: sudo cp billi/agent.x86_64.iso /var/www/html
-  - name: Make agent.x86_64.iso available
-    command: sudo chown apache.apache /var/www/html/agent.x86_64.iso
+#  - name: Make agent.x86_64.iso available
+#    command: sudo chown apache.apache /var/www/html/agent.x86_64.iso
   - name: Boot hosts with iso
     ansible.builtin.command:
       cmd: ./boot.py {{ ansible_inventory_sources[0] }}
