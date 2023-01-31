@@ -25,11 +25,11 @@
       mode: '0755'
   - name: Render install config
     ansible.builtin.template:
-      src: install-config.yaml.j2
+      src: "{{ playbook_dir }}/install-config.yaml.j2"
       dest: billi/install-config.yaml
   - name: Render agent config
     ansible.builtin.template:
-      src: agent-config.yaml.j2
+      src: "{{ playbook_dir }}/agent-config.yaml.j2"
       dest: billi/agent-config.yaml
   - name: Copy manifests
     copy:
@@ -60,9 +60,13 @@
     command: sudo cp billi/agent.x86_64.iso /var/www/html
 #  - name: Make agent.x86_64.iso available
 #    command: sudo chown apache.apache /var/www/html/agent.x86_64.iso
+  - name: Copy boot.py
+    copy:
+      src: /root/billi-ansible/boot.py
+      dest: "{{ playbook_dir }}/project"
   - name: Boot hosts with iso
     ansible.builtin.command:
-      cmd: ./boot.py {{ ansible_inventory_sources[0] }}
+      cmd: "{{ playbook_dir }}/boot.py {{ ansible_inventory_sources[0] }}"
   - name: Remove agent.x86_64.iso
     ansible.builtin.file:
       path: billi/agent.x86_64.iso
